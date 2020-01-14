@@ -139,7 +139,7 @@ def run_pipeline(config, queue=None):
 
         # Decorate the 'run' function of the spiking model with a parameter
         # sweep function.
-        @run_parameter_sweep(config, queue)
+        # @run_parameter_sweep(config, queue)
         def run(snn, **test_set):
             return snn.run(**test_set)
 
