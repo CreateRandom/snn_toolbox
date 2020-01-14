@@ -703,6 +703,8 @@ class AbstractSNN:
                     self.parsed_model, x_b_l)
 
             # Save log variables to disk.
+
+
             log_vars = {key: getattr(self, key) for key in self._log_keys}
             log_vars['top1err_b_t'] = self.top1err_b_t
             log_vars['top5err_b_t'] = self.top5err_b_t
@@ -715,6 +717,12 @@ class AbstractSNN:
                 log_vars['avg_rate'] = self.get_avg_rate_from_trains()
                 print("Average spike rate: {} spikes per simulation time step."
                       "".format(log_vars['avg_rate']))
+
+            if hasattr(self,'latency'):
+                log_vars['latency'] = self.latency
+            if hasattr(self,'acc_at_t'):
+                log_vars['acc_at_t'] = self.acc_at_t
+
             np.savez_compressed(os.path.join(path_log_vars, str(batch_idx)),
                                 **log_vars)
 

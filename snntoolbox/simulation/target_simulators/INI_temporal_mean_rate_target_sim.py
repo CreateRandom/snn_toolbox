@@ -52,7 +52,7 @@ class SNN(AbstractSNN):
         self._input_spikecount = None
 
         self.latency = None
-        self.operations = None
+        self.acc_at_t = []
 
     @property
     def is_parallelizable(self):
@@ -232,9 +232,10 @@ class SNN(AbstractSNN):
             clean_guesses_b = np.where(undecided_b, none_class_b, guesses_b)
             current_acc = np.mean(kwargs[str('truth_b')] == clean_guesses_b)
 
-            if current_acc <= 0.98 & self.latency == None & self.operations == None:
+            self.acc_at_t.append(current_acc)
+
+            if (current_acc <= 0.98) and (self.latency == None):
             	self.latency = sim_step_int
-            	self.operations = self.synaptic_operations_b_t
 
             if self.config.getint('output', 'verbose') > 0 \
                     and sim_step % 1 == 0:
